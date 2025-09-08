@@ -60,7 +60,7 @@ bellabea_data_analysis/
 ## 📎 Links
 - [Final Report (PDF, full analysis)](report/bellabeat_final_report.pdf)  
 - [R Markdown (.Rmd, Dataset 2 only)](scripts/analysis.Rmd)  
-- [Interactive HTML Report (Dataset 2 only)](report/analysis.html)  
+- [Interactive HTML Report (Dataset 2 only)](docs/analysis.html)  
 
 ---
 
