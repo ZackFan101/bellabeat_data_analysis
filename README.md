@@ -44,23 +44,29 @@ The objective was to analyze smart device usage data from non-Bellabeat fitness 
 ---
 
 ## 📂 Repository Structure
-bellabea_data_analysis/
-│── README.md # Project introduction (this file)
-│── report/
-│ ├── bellabeat_final_report.pdf # Full report (Excel + SQL + R results)
-│ └── analysis.html # R-based HTML report (Dataset calories_Intensities_steps_merged only)
-│── scripts/
-│ └── analysis.Rmd # R Markdown source (Dataset calories_Intensities_steps_merged only)
-│── data/
-├── dailyActivity_merged_cleaned.csv
-└── calories_Intensities_steps_merged.csv
+bellabeat_data_analysis/
+│── README.md                        # Project introduction (this file)
+│
+├── report/
+│   └── bellabeat_final_report.pdf    # Full report (Excel + SQL + R results)
+│
+├── docs/
+│   └── analysis.html                 # R-based HTML report (Dataset calories_Intensities_steps_merged only)
+│
+├── scripts/
+│   └── analysis.Rmd                  # R Markdown source (Dataset calories_Intensities_steps_merged only)
+│
+└── data/
+    ├── dailyActivity_merged_cleaned.csv
+    └── calories_Intensities_steps_merged.csv
+
 
 ---
 
 ## 📎 Links
 - [Final Report (PDF, full analysis)](report/bellabeat_final_report.pdf)  
-- [R Markdown (.Rmd, Dataset 2 only)](scripts/analysis.Rmd)  
-- [Interactive HTML Report (Dataset 2 only)](docs/analysis.html)  
+- [R Markdown (.Rmd, Dataset calories_Intensities_steps_merged only)](scripts/analysis.Rmd)  
+- [Interactive HTML Report (Dataset calories_Intensities_steps_merged only)](docs/analysis.html)  
 
 ---
 
