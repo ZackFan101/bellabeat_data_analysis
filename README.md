@@ -44,7 +44,7 @@ The objective was to analyze smart device usage data from non-Bellabeat fitness 
 ---
 
 ## 📂 Repository Structure
-bellabeat-data-analysis/
+bellabea_data_analysis/
 │── README.md # Project introduction (this file)
 │── report/
 │ ├── bellabeat_final_report.pdf # Full report (Excel + SQL + R results)
