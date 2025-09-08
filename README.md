@@ -7,34 +7,39 @@ The objective was to analyze smart device usage data from non-Bellabeat fitness 
 ---
 
 ## 🛠 Tools & Techniques
-- **SQL**: Data cleaning and consolidation  
-- **Excel**: Additional wrangling and data formatting  
-- **R (RMarkdown, ggplot2, dplyr)**: Data analysis and visualization  
+- **Excel**: Data cleaning and exploratory analysis on *dailyActivity_merged*  
+- **SQL**: Data cleaning and transformation of *calories_Intensities_steps_merged*  
+- **R (RMarkdown, ggplot2, dplyr)**: Statistical analysis and visualization  
 - **Markdown / Documentation**: Report writing and communication  
 
 ---
 
 ## 🔍 Analysis Process
-1. **Ask**: Define the business task — how Bellabeat can use smart device data to grow.  
-2. **Prepare**: Import and join datasets (*dailyActivity_merged*, *calories_Intensities_steps_merged*) using SQL queries.  
-3. **Process**: Remove duplicates, outliers, and incomplete records; standardize data formats.  
-4. **Analyze**: Use R to explore relationships between steps, activity intensity, and calories burned.  
-5. **Share**: Summarize findings with visualizations and a comprehensive report.  
-6. **Act**: Translate insights into product and marketing recommendations for Bellabeat.  
+### Dataset 1: Daily Activity (Excel)
+- Cleaned *dailyActivity_merged* dataset in Excel by removing duplicates and formatting inconsistencies.  
+- Conducted exploratory analysis directly in Excel.  
+- Derived key insights about user activity patterns and their relationship to calories burned.  
+
+### Dataset 2: Calories, Intensities & Steps (SQL + R)
+- Cleaned *calories_Intensities_steps_merged* dataset in SQL by standardizing data types, removing outliers, and joining relevant tables.  
+- Imported cleaned dataset into R for correlation analysis and visualization.  
+- Examined the relationship between activity intensity, steps, and calories burned.  
+- Generated interactive visualizations and exported as an HTML report.  
 
 ---
 
 ## 📊 Key Findings
-- **Intensity matters more than steps**: Very active minutes show the strongest correlation with calories burned (r ≈ 0.54). Activity intensity overall is a stronger driver of energy expenditure than step count.  
-- **User efficiency varies**: Individuals differ in “steps per calorie” efficiency. Step goals alone are not effective; personalized guidance is needed.  
-- **Daily rhythm**: Activity peaks in the morning and evening; midday shows long sedentary periods. Higher-intensity activities sometimes increase calorie burn without proportional step increases.  
+- **Excel Analysis (Dataset 1)**: Step counts correlate with calorie burn, but the relationship is not fully explanatory.  
+- **SQL + R Analysis (Dataset 2)**: Activity intensity has a stronger impact on calorie expenditure than step count alone. Very active minutes show the strongest correlation with calories burned (r ≈ 0.54).  
+- **User Efficiency**: Individuals differ in “steps per calorie” efficiency, meaning generic step goals are not effective.  
+- **Daily Rhythm**: Activity peaks in the morning and evening, while midday is mostly sedentary.  
 
 ---
 
 ## ✅ Recommendations for Bellabeat
-- **Product Design**: Introduce efficiency scores, intensity-based goals, and personalized midday reminders.  
-- **Marketing Strategy**: Position Bellabeat as helping users *“move smarter, not just more.”*  
-- **User Engagement**: Align nudges with natural daily rhythms and adapt challenges to different efficiency levels.  
+- **Product Design**: Add efficiency scores, intensity-based goals, and personalized midday reminders.  
+- **Marketing Strategy**: Emphasize Bellabeat as the brand that helps users *“move smarter, not just more.”*  
+- **User Engagement**: Align nudges with daily rhythms and tailor challenges to individual efficiency levels.  
 
 ---
 
@@ -42,10 +47,10 @@ The objective was to analyze smart device usage data from non-Bellabeat fitness 
 bellabeat-data-analysis/
 │── README.md # Project introduction (this file)
 │── report/
-│ ├── bellabeat_final_report.pdf # Final project deliverable
-│ └── analysis.html # Interactive HTML report (knit from Rmd)
+│ ├── bellabeat_final_report.pdf # Full report (Excel + SQL + R results)
+│ └── analysis.html # R-based HTML report (Dataset calories_Intensities_steps_merged only)
 │── scripts/
-│ └── analysis.Rmd # R Markdown source file
+│ └── analysis.Rmd # R Markdown source (Dataset calories_Intensities_steps_merged only)
 │── data/
 ├── dailyActivity_merged_cleaned.csv
 └── calories_Intensities_steps_merged.csv
@@ -53,9 +58,9 @@ bellabeat-data-analysis/
 ---
 
 ## 📎 Links
-- [Final Report (PDF)](report/bellabeat_final_report.pdf)  
-- [R Markdown (.Rmd)](scripts/analysis.Rmd)  
-- [Interactive HTML Report](report/analysis.html)  
+- [Final Report (PDF, full analysis)](report/bellabeat_final_report.pdf)  
+- [R Markdown (.Rmd, Dataset 2 only)](scripts/analysis.Rmd)  
+- [Interactive HTML Report (Dataset 2 only)](report/analysis.html)  
 
 ---
 
