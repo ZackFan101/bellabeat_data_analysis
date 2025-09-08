@@ -1,0 +1,155 @@
+---
+title: "Bellabeat Case Study – Steps, Intensity & Calories"
+author: "Ziqiang Fan (Zack)"
+date: "2025-09-01"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.6)
+
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(lubridate)
+})
+
+theme_set(theme_minimal(base_size = 12))
+```
+
+# Introduction
+This notebook analyzes the **calories, intensities, and steps** data from the Fitbit dataset.  
+All variables are stored in a **single cleaned file**: `calories_Intensities_steps_merged.csv` (created by merging the hourly datasets).  
+
+The analysis includes:
+- Correlation between steps/intensity and calories
+- Time‑of‑day patterns for steps and calories
+- Efficiency (steps per calorie) distribution
+- Relationship between efficiency and intensity
+
+# 1. Load cleaned dataset
+
+```{r}
+# Read the cleaned CSV file
+df <- read.csv("calories_Intensities_steps_merged.csv", stringsAsFactors = FALSE)
+
+# Parse timestamp if needed
+df <- df %>% mutate(ActivityHour = ymd_hms(ActivityHour))
+
+cat("Rows:", nrow(df), " | Users:", length(unique(df$Id)), "\n")
+```
+
+# 2. Steps & Intensity vs Calories
+
+```{r}
+# Correlations
+cor_steps_cal <- cor(df$totalSteps, df$Calories, use = "complete.obs")
+cor_int_cal   <- cor(df$TotalIntensity, df$Calories, use = "complete.obs")
+
+cor_steps_cal; cor_int_cal
+```
+
+```{r}
+# Scatter: Steps vs Calories
+ggplot(df, aes(x = totalSteps, y = Calories)) +
+  geom_point(alpha = 0.4, color = "darkgreen", size = 2) +
+  geom_smooth(method = "lm", se = FALSE, color = "red", size = 1) +
+  labs(title = "Relationship between Steps and Calories Burned",
+       subtitle = paste0("Each point = an hour | r = ", round(cor_steps_cal, 3)),
+       x = "Total Steps (per hour)", y = "Calories Burned") +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+```
+
+```{r}
+# Scatter: Intensity vs Calories
+ggplot(df, aes(x = TotalIntensity, y = Calories)) +
+  geom_point(alpha = 0.4, color = "#2C7BB6", size = 2) +
+  geom_smooth(method = "lm", se = FALSE, color = "#D7191C", size = 1) +
+  labs(title = "Intensity vs Calories",
+       subtitle = paste0("r = ", round(cor_int_cal, 3)),
+       x = "Total Intensity", y = "Calories") +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5, size = 18),
+        plot.subtitle = element_text(hjust = 0.5, size = 12, color = "gray40"),
+        axis.title = element_text(face = "bold"))
+```
+
+# 3. Hourly trends
+
+```{r}
+df <- df %>% mutate(hour = hour(ActivityHour))
+
+hourly <- df %>%
+  group_by(hour) %>%
+  summarise(mean_steps = mean(totalSteps, na.rm=TRUE),
+            mean_cal   = mean(Calories, na.rm=TRUE),
+            mean_int   = mean(AverageIntensity, na.rm=TRUE), .groups="drop")
+```
+
+```{r}
+# Average steps by hour
+ggplot(hourly, aes(x = hour, y = mean_steps)) +
+  geom_line(color = "darkgreen") +
+  scale_x_continuous(breaks = 0:23) +
+  labs(title = "Average Steps by Hour", x = "Hour of Day (0–23)", y = "Average Steps")
+```
+
+```{r}
+# Average calories by hour
+ggplot(hourly, aes(x = hour, y = mean_cal)) +
+  geom_line(color = "orange") +
+  scale_x_continuous(breaks = 0:23) +
+  labs(title = "Average Calories by Hour", x = "Hour of Day (0–23)", y = "Average Calories")
+```
+
+# 4. Efficiency among users
+
+```{r}
+df <- df %>% mutate(Steps_per_Calorie = ifelse(Calories > 0, totalSteps / Calories, NA))
+
+efficiency <- df %>%
+  group_by(Id) %>%
+  summarise(mean_eff = mean(Steps_per_Calorie, na.rm=TRUE), .groups="drop")
+
+summary(efficiency$mean_eff)
+```
+
+```{r}
+# Histogram of efficiency
+ggplot(efficiency, aes(x = mean_eff)) +
+  geom_histogram(bins = 25, fill = "steelblue", color = "white", alpha = 0.8) +
+  geom_vline(aes(xintercept = median(mean_eff, na.rm = TRUE)), color = "red", linetype = "dashed", size = 1) +
+  labs(title = "Distribution of Activity Efficiency",
+       subtitle = "Steps per Calorie (lower values = higher efficiency)",
+       x = "Steps per Calorie", y = "Number of Users")
+```
+
+# 5. Intensity vs Efficiency
+
+```{r}
+df_eff <- df %>% filter(!is.na(Steps_per_Calorie), !is.na(AverageIntensity), is.finite(Steps_per_Calorie))
+
+cor_eff_int <- cor(df_eff$Steps_per_Calorie, df_eff$AverageIntensity, use = "complete.obs", method = "pearson")
+cor_eff_int
+```
+
+```{r}
+# Scatter: Intensity vs Efficiency
+ggplot(df_eff, aes(x = AverageIntensity, y = Steps_per_Calorie)) +
+  geom_point(alpha=0.3) +
+  geom_smooth(method="lm", se=FALSE, color="purple") +
+  labs(title="Intensity vs Activity Efficiency", subtitle = paste0("Pearson r = ", round(cor_eff_int, 3)),
+       x="Average Intensity", y="Steps per Calorie")
+```
+
+# Appendix
+
+```{r}
+sessionInfo()
+```
